@@ -25,7 +25,6 @@ public class Duke extends Sprite {
 		super(X, Y, XVEL, YVEL, WIDTH, HEIGHT, stageWidth, stageHeight);
 		status = "idle";
 		try {
-			System.out.println("F");
 			base = ImageIO.read(new File("duke.png"));
 			runFrames[0] = ImageIO.read(new File("run00.png"));
 			runFrames[1] = ImageIO.read(new File("run01.png"));

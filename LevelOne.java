@@ -34,7 +34,10 @@ public class LevelOne extends JPanel {
 	            // More than one key is currently pressed.
 	            // Iterate over pressed to get the keys.
 	            for (char c : pressed) {
-	            	System.out.println(c);
+	            	System.out.println("HERE");
+	            	if (c==(char)65){
+	            		System.out.println("a pressed");
+	            	}
 	            }
 	        }
 	    }
@@ -83,6 +86,7 @@ public class LevelOne extends JPanel {
 			}
 			public void keyReleased(KeyEvent e){
 				keyboard.keyReleased(e);
+				System.out.println("release");
 				// System.out.println("release");
 				// player.status = "idle";
 			}
