@@ -47,9 +47,7 @@ public class LevelOne extends JPanel {
 				System.out.println(e.getKeyCode());
 			}
 			@Override
-			public void keyTyped(KeyEvent e) {
-				// System.out.println("keyTyped: [" + e + "].");
-			}
+			public void keyTyped(KeyEvent e) {}
 			public void keyReleased(KeyEvent e){
 				if(e.getKeyCode()==68 || e.getKeyCode()==65) {
 					player.status = "idle";
@@ -62,18 +60,16 @@ public class LevelOne extends JPanel {
 	
 	public void reset() {
 
-		player = new Duke(LEVEL_WIDTH, LEVEL_HEIGHT);
-		floor = new Platform(LEVEL_WIDTH, LEVEL_HEIGHT);
+		player = new Duke();
+		// floor = new Platform(LEVEL_WIDTH, LEVEL_HEIGHT);
 		playing = true;
 		status.setText("Running...");
-
 		requestFocusInWindow();
 	}
 
 	void tick() {
 		player.move();
 		player.yVel += gravity;
-		// String w = player.yVel + " " + player.y;
 		repaint();
 	}
 

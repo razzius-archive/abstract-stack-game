@@ -9,28 +9,27 @@ import javax.imageio.ImageIO;
 public class Duke extends Sprite {
 	public static int WIDTH = 30;
 	public static int HEIGHT = 40;
-	public static int X = 50;
-	public static int Y = 20;	
+	public static int x = 50;
+	public static int y = 200;	
 	public static int XVEL = 0;
 	public static int YVEL = 0;
 
 
+	public int MAX_VEL = 10;
+	public String status = "idle";
 	public BufferedImage img;
 	private BufferedImage base;
 	private int frame = 0;
 
 	private BufferedImage[] runFrames = new BufferedImage[3];
 
-	public Duke(int stageWidth, int stageHeight) {
-		super(X, Y, XVEL, YVEL, WIDTH, HEIGHT, stageWidth, stageHeight);
-		status = "idle";
+	public Duke() {
+		super(x, y, WIDTH, HEIGHT, "idle");
 		try {
 			base = ImageIO.read(new File("duke.png"));
 			runFrames[0] = ImageIO.read(new File("run00.png"));
 			runFrames[1] = ImageIO.read(new File("run01.png"));
 			runFrames[2] = ImageIO.read(new File("run02.png"));
-			// img = Scalr.resize(base, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH,
-   //             50, 100, Scalr.OP_ANTIALIAS);
 		} catch (IOException e) {
 			System.out.println("png missing");
 		}
