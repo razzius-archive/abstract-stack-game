@@ -30,7 +30,7 @@ public class Duke extends Sprite {
 			runFrames[1] = ImageIO.read(new File("run01.png"));
 			runFrames[2] = ImageIO.read(new File("run02.png"));
 			// img = Scalr.resize(base, Scalr.Method.SPEED, Scalr.Mode.FIT_TO_WIDTH,
-               // 50, 100, Scalr.OP_ANTIALIAS);
+   //             50, 100, Scalr.OP_ANTIALIAS);
 		} catch (IOException e) {
 			System.out.println("png missing");
 		}
@@ -47,7 +47,6 @@ public class Duke extends Sprite {
 			g.drawImage(base, x, y, width, height, null);
 		} else {
 			g.drawImage(runFrames[frame], x, y, width, height, null);
-			// System.out.println(frame);
 			frame = (frame + 1) % runFrames.length;
 		}
 	}
