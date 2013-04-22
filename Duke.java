@@ -4,19 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-// import org.imgscalr.Scalr;
-
 public class Duke extends Sprite {
 	public static int WIDTH = 30;
 	public static int HEIGHT = 40;
-	public static int x = 50;
-	public static int y = 200;	
+	
 	public static int XVEL = 0;
 	public static int YVEL = 0;
 
 
 	public int MAX_VEL = 10;
 	public String status = "idle";
+	public boolean grounded = false;
+	
 	public BufferedImage img;
 	private BufferedImage base;
 	private int frame = 0;
@@ -24,7 +23,7 @@ public class Duke extends Sprite {
 	private BufferedImage[] runFrames = new BufferedImage[3];
 
 	public Duke() {
-		super(x, y, WIDTH, HEIGHT, "idle");
+		super(50, 200, WIDTH, HEIGHT, "idle");
 		try {
 			base = ImageIO.read(new File("duke.png"));
 			runFrames[0] = ImageIO.read(new File("run00.png"));
@@ -34,7 +33,6 @@ public class Duke extends Sprite {
 			System.out.println("png missing");
 		}
 	}
-
 	@Override
 	public void draw(Graphics g) {
 		if (status.equals("runLeft")) {

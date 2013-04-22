@@ -4,19 +4,16 @@ import java.io.IOException;
 import java.awt.Graphics;
 import javax.imageio.ImageIO;
 
+public class Platform implements Shape {
+	public int x;
+	public int y;
 
-public class Platform extends Shape {
-	public final int x;
-	public final int y;
-
-	public final int width;
-	public final int height;
-
+	public int width;
+	public int height;
 
 	public BufferedImage img;
 
 	public Platform(int x, int y, int w, int h) {
-		super(x, y, w, h);
 		this.x = x;
 		this.y = y;
 		this.width = w;
