@@ -17,14 +17,14 @@ public class LevelOne extends JPanel {
 	private boolean playing = false;
 	public static final int LEVEL_WIDTH = 600;
 	public static final int LEVEL_HEIGHT = 400;
-	public static final int INTERVAL = 15;
+	public static final int INTERVAL = 25;
 
 	private BufferedImage bg;
 	
-	private Boolean[][] platforms = new Boolean[61][61];
+	private Boolean[][] platforms = new Boolean[250][250];
 	private HashSet<Platform> blocks = new HashSet<Platform>(2400); 
 
-	private Boolean[][] walls = new Boolean[61][61];
+	private Boolean[][] walls = new Boolean[250][250];
 	private HashSet<Wall> barriers = new HashSet<Wall>(2400);
 
 	private int gravity = 1;
@@ -40,10 +40,11 @@ public class LevelOne extends JPanel {
 
 	private void wallOff(int x, int y, int w, int h) {
 		for(int i=x; i<w+x; i++) {
-			for(int j=y; j<h+y; j++) {
+			for(int j=y+1; j<h+y; j++) {
 				walls[i][j] = true;
 			}
 		}
+		build(x, y, w, 1);
 	}
 	public LevelOne(JLabel status) {
 		Timer timer = new Timer(INTERVAL, new ActionListener() {
@@ -89,7 +90,6 @@ public class LevelOne extends JPanel {
 		player.yVel = 0;
 		status.setText("Press any key to restart.");
 		playing = false;
-		System.out.println("Game");
 		addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {}
@@ -110,15 +110,21 @@ public class LevelOne extends JPanel {
 		gameOver = null;
 		offsetx = 0;
 		offsety = 0;
-		build(5,39,30,1);
-		build(15,29,20,1);
-		build(0,20,10,1);
-		build(35,15,10,1);
-		build(15,25,10,2);
-		build(45,35,10,1);
-		build(20,46,40,1);
-		build(30,53,20,1);
-		wallOff(20,20,1,5);
+
+		wallOff(0,10,3,43);
+
+		build(0,53,69,2);
+		build(88,53,30,2);
+		
+		wallOff(53,47,7,6);
+		wallOff(60,41,7,12);
+		wallOff(67,35,2,18);
+
+		wallOff(73,29,7,18);
+		wallOff(80,35,7,12);
+		wallOff(87,41,8,6);
+
+
 		blocks = new HashSet<Platform>(2400);
 		barriers = new HashSet<Wall>(2400);
 		for(int i=0; i<platforms.length; i++) {
@@ -150,7 +156,7 @@ public class LevelOne extends JPanel {
 			} 
 		}
 		for (Platform p : blocks) {
-			if (player.intersects(p) && player.y <= p.y - p.height + 6) {
+			if (player.intersects(p) && player.y <= p.y - p.height - 20) {
 				if (player.y + player.height != p.y) {
 					player.xVel = 0;
 				}
@@ -171,6 +177,7 @@ public class LevelOne extends JPanel {
 			for (Wall w : barriers) {
 				w.y += (150 - player.y);
 			}
+			camel.y += (150 - player.y);
 			offsety -= 150 - player.y;
 			player.y = 150;
 		}
@@ -181,6 +188,7 @@ public class LevelOne extends JPanel {
 			for (Wall w : barriers) {
 				w.y -= (player.y - 300);
 			}
+			camel.y -= (player.y - 300);
 			offsety += (player.y - 300);
 			player.y = 300;
 		}
@@ -195,6 +203,7 @@ public class LevelOne extends JPanel {
 			for (Wall w : barriers) {
 				w.x += (400 - player.x);
 			}
+			camel.x += (400 - player.x);
 			offsetx -= 150 - player.y;
 			player.x = 400;
 		}
@@ -205,6 +214,7 @@ public class LevelOne extends JPanel {
 			for (Wall w : barriers) {
 				w.x -= (player.x - 200);
 			}
+			camel.x -= (player.x - 200);
 			offsetx += (player.x - 200);
 			player.x = 200;
 		}

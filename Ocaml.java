@@ -15,20 +15,21 @@ public class Ocaml extends Sprite {
 	
 	private int frame = 0;
 
-	private BufferedImage[] runFrames = new BufferedImage[2];
+	private BufferedImage[] runFrames = new BufferedImage[3];
 
 	public Ocaml() {
-		super(100, 100, WIDTH, HEIGHT, "");
+		super(600, 550, WIDTH, HEIGHT, "");
 		try {
 			runFrames[0] = ImageIO.read(new File("ocaml0.png"));
 			runFrames[1] = ImageIO.read(new File("ocaml1.png"));
+			runFrames[2] = ImageIO.read(new File("ocaml2.png"));
 		} catch (IOException e) {
 			System.out.println("ocaml png missing");
 		}
 	}
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(runFrames[frame], x, y, width, height, null);
-		frame = (frame + 1) % runFrames.length;
+		g.drawImage(runFrames[(frame / 10 % 3)], x, y, width, height, null);
+		frame = frame + 1 % 500;
 	}
 }

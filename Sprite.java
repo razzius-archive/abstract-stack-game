@@ -53,7 +53,7 @@ public class Sprite implements Shape {
 		return (x+width >= target.x
 			&& y+height >= target.y
 			&& target.x + target.width >= x
-			&& target.y <= y+height);
+			&& target.y + target.height >= y);
 	}
 	public void draw(Graphics g) {}
 }
