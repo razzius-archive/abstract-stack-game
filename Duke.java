@@ -23,7 +23,7 @@ public class Duke extends Sprite {
 	private BufferedImage[] runFrames = new BufferedImage[3];
 
 	public Duke() {
-		super(50, 200, WIDTH, HEIGHT, "idle");
+		super(250, 200, WIDTH, HEIGHT, "idle");
 		try {
 			base = ImageIO.read(new File("duke.png"));
 			runFrames[0] = ImageIO.read(new File("run00.png"));
