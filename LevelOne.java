@@ -21,10 +21,10 @@ public class LevelOne extends JPanel {
 
 	private BufferedImage bg;
 	
-	private Boolean[][] platforms = new Boolean[250][250];
+	private Boolean[][] platforms = new Boolean[500][500];
 	private HashSet<Platform> blocks = new HashSet<Platform>(2400); 
 
-	private Boolean[][] walls = new Boolean[250][250];
+	private Boolean[][] walls = new Boolean[500][500];
 	private HashSet<Wall> barriers = new HashSet<Wall>(2400);
 
 	private int gravity = 1;
@@ -113,16 +113,22 @@ public class LevelOne extends JPanel {
 
 		wallOff(0,10,3,43);
 
+		//right side
+		wallOff(200,0,20,60);
+
 		build(0,53,69,2);
-		build(88,53,30,2);
+		build(88,56,30,2);
+
+		build(80,50,300,2);
+		wallOff(300,46,200,4);
 		
 		wallOff(53,47,7,6);
 		wallOff(60,41,7,12);
 		wallOff(67,35,2,18);
 
-		wallOff(73,29,7,18);
-		wallOff(80,35,7,12);
-		wallOff(87,41,8,6);
+		wallOff(73,29,7,14);
+		wallOff(80,35,7,8);
+		wallOff(87,41,8,2);
 
 
 		blocks = new HashSet<Platform>(2400);
@@ -144,6 +150,7 @@ public class LevelOne extends JPanel {
 	}	
 
 	void tick() {
+		status.setText(Integer.toString(offsetx));
 		player.move();
 		player.grounded = false;
 		for (Wall w : barriers) {
@@ -192,11 +199,11 @@ public class LevelOne extends JPanel {
 			offsety += (player.y - 300);
 			player.y = 300;
 		}
-		if (offsety > 300) {
+		if (offsety > 400) {
 			fin();
 		}
 
-		if (player.x >= 400) {
+		if (player.x >= 400 && offsetx < 1600) {
 			for (Platform p : blocks) {
 				p.x += (400 - player.x);
 			}
@@ -204,10 +211,10 @@ public class LevelOne extends JPanel {
 				w.x += (400 - player.x);
 			}
 			camel.x += (400 - player.x);
-			offsetx -= 150 - player.y;
+			offsetx -= 400 - player.x;
 			player.x = 400;
 		}
-		if (player.x <= 200) {
+		if (player.x <= 200 && offsetx > 0) {
 			for (Platform p : blocks) {
 				p.x -= (player.x - 200);
 			}
