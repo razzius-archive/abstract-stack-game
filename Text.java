@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class Text implements Shape {
+public class Text extends Shape {
 	public BufferedImage text;
 	public Text(String file) {
 		try {

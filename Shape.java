@@ -1,11 +1,11 @@
 import java.awt.Graphics;
 
-public interface Shape {
-	public int x = 0;
-	public int y = 0;
+abstract class Shape {
+	public int x;
+	public int y;
 
-	public int width = 0;
-	public int height = 0;
+	public int width;
+	public int height;
 
-	public void draw(Graphics g);
+	public void draw(Graphics g) {};
 }

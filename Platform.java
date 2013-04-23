@@ -4,12 +4,7 @@ import java.io.IOException;
 import java.awt.Graphics;
 import javax.imageio.ImageIO;
 
-public class Platform implements Shape {
-	public int x;
-	public int y;
-
-	public int width;
-	public int height;
+public class Platform extends Shape {
 
 	public BufferedImage img;
 

@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,13 +18,15 @@ public class LevelOne extends JPanel {
 	public static final int LEVEL_HEIGHT = 400;
 	public static final int INTERVAL = 25;
 
+	private Wall wallSample = new Wall(0,0,0,0);
+	private Platform platformSample = new Platform(0,0,0,0);
+
 	private BufferedImage bg;
 	
 	private Boolean[][] platforms = new Boolean[500][500];
-	private HashSet<Platform> blocks = new HashSet<Platform>(2400); 
-
 	private Boolean[][] walls = new Boolean[500][500];
-	private HashSet<Wall> barriers = new HashSet<Wall>(2400);
+
+	private HashSet<Shape> blocks = new HashSet<Shape>(2400);
 
 	private int gravity = 1;
 	private int offsetx = 0;
@@ -117,7 +118,7 @@ public class LevelOne extends JPanel {
 		wallOff(200,0,20,60);
 
 		build(0,53,69,2);
-		build(88,56,30,2);
+		build(60,56,30,2);
 
 		build(80,50,300,2);
 		wallOff(300,46,200,4);
@@ -131,8 +132,8 @@ public class LevelOne extends JPanel {
 		wallOff(87,41,8,2);
 
 
-		blocks = new HashSet<Platform>(2400);
-		barriers = new HashSet<Wall>(2400);
+		blocks = new HashSet<Shape>(2400);
+
 		for(int i=0; i<platforms.length; i++) {
 			for(int j=0; j<platforms[0].length; j++) {
 				if (platforms[i][j]!=null) {
@@ -143,33 +144,33 @@ public class LevelOne extends JPanel {
 		for(int i=0; i<walls.length; i++) {
 			for(int j=0; j<walls[0].length; j++) {
 				if (walls[i][j]!=null) {
-					barriers.add(new Wall(i*10, j*10, 10, 10));
+					blocks.add(new Wall(i*10, j*10, 10, 10));
 				}
 			}
 		}
 	}	
 
 	void tick() {
-		status.setText(Integer.toString(offsetx));
+		status.setText(Integer.toString(player.x));
 		player.move();
 		player.grounded = false;
-		for (Wall w : barriers) {
-			if (player.touches(w)) {
-				if (player.x <= w.x) {
-					player.x = w.x - player.width;
-				} else {
-					player.x = w.x + w.width;
+		for (Shape s : blocks) {
+			if (s.getClass().isInstance(wallSample)) {
+				if (player.intersects(s)) {
+					System.out.println(s.x + "?, " + player.x);
+					//hitting left side
+					if (player.x <= s.x) {
+						player.x = s.x - player.width;
+					} else {
+						player.x = s.x + s.width;
+					}
 				}
-			} 
-		}
-		for (Platform p : blocks) {
-			if (player.intersects(p) && player.y <= p.y - p.height - 20) {
-				if (player.y + player.height != p.y) {
-					player.xVel = 0;
+			} else if (s.getClass().isInstance(platformSample)) {
+				if (player.intersects(s) && player.y <= s.y - s.height - 20) {
+					player.yVel = 0;
+					player.y = s.y - player.height;
+					player.grounded = true;
 				}
-				player.yVel = 0;
-				player.y = p.y - player.height;
-				player.grounded = true;
 			}
 		}
 		if (!player.grounded) {
@@ -178,22 +179,16 @@ public class LevelOne extends JPanel {
 
 		//scrolling logic
 		if (player.y <= 150) {
-			for (Platform p : blocks) {
-				p.y += (150 - player.y);
-			}
-			for (Wall w : barriers) {
-				w.y += (150 - player.y);
+			for (Shape s : blocks) {
+				s.y += (150 - player.y);
 			}
 			camel.y += (150 - player.y);
 			offsety -= 150 - player.y;
 			player.y = 150;
 		}
 		if (player.y >= 300) {
-			for (Platform p : blocks) {
-				p.y -= (player.y - 300);
-			}
-			for (Wall w : barriers) {
-				w.y -= (player.y - 300);
+			for (Shape s : blocks) {
+				s.y -= (player.y - 300);
 			}
 			camel.y -= (player.y - 300);
 			offsety += (player.y - 300);
@@ -204,22 +199,16 @@ public class LevelOne extends JPanel {
 		}
 
 		if (player.x >= 400 && offsetx < 1600) {
-			for (Platform p : blocks) {
-				p.x += (400 - player.x);
-			}
-			for (Wall w : barriers) {
-				w.x += (400 - player.x);
+			for (Shape s : blocks) {
+				s.x += (400 - player.x);
 			}
 			camel.x += (400 - player.x);
 			offsetx -= 400 - player.x;
 			player.x = 400;
 		}
 		if (player.x <= 200 && offsetx > 0) {
-			for (Platform p : blocks) {
-				p.x -= (player.x - 200);
-			}
-			for (Wall w : barriers) {
-				w.x -= (player.x - 200);
+			for (Shape s : blocks) {
+				s.x -= (player.x - 200);
 			}
 			camel.x -= (player.x - 200);
 			offsetx += (player.x - 200);
@@ -235,12 +224,9 @@ public class LevelOne extends JPanel {
 			draw(g);
 			player.draw(g);
 			camel.draw(g);
-			for (Platform p : blocks) {
-				p.draw(g);
+			for (Shape s : blocks) {
+				s.draw(g);
 			}			
-			for (Wall w : barriers) {
-				w.draw(g);
-			}	
 		} else {
 			if (gameOver == null) {
 				gameOver = new Text("gameOver.png");
