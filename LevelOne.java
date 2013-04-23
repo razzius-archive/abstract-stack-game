@@ -10,6 +10,7 @@ import java.util.HashSet;
 
 @SuppressWarnings("serial")
 public class LevelOne extends JPanel {
+	private Text gameOver;
 	private Duke player;
 	private JLabel status;
 	private boolean playing = false;
@@ -23,7 +24,7 @@ public class LevelOne extends JPanel {
 	private HashSet<Platform> blocks = new HashSet<Platform>(2400); 
 
 	private int gravity = 1;
-
+	private int offset = 0;
 	private void build(int x, int y, int w, int h) {
 		for(int i=x; i<w+x; i++) {
 			for(int j=y; j<h+y; j++) {
@@ -47,13 +48,13 @@ public class LevelOne extends JPanel {
 		}
 		addKeyListener(new KeyListener() {
 			@Override
-			public void keyPressed(KeyEvent e){
-				if(e.getKeyCode()==65) {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode()==65) {
 					player.status = "runLeft";
-				} else if(e.getKeyCode()==68) {
+				} else if (e.getKeyCode()==68) {
 					player.status = "runRight";
-				} else if(e.getKeyCode()==87) {
-					if(player.grounded) {
+				} else if (e.getKeyCode()==87) {
+					if (player.grounded) {
 						player.yVel = -12;
 					}
 				}
@@ -61,7 +62,7 @@ public class LevelOne extends JPanel {
 			@Override
 			public void keyTyped(KeyEvent e) {}
 			public void keyReleased(KeyEvent e){
-				if(e.getKeyCode()==68 || e.getKeyCode()==65) {
+				if (e.getKeyCode()==68 || e.getKeyCode()==65) {
 					player.status = "idle";
 				}
 			}
@@ -69,9 +70,47 @@ public class LevelOne extends JPanel {
 		this.status = status;
 	}
 
-	
+	public void gameOver() {
+		playing = false;
+		addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				removeKeyListener(this);
+				restart();
+			}
+			public void keyTyped(KeyEvent e) {}
+			public void keyReleased(KeyEvent e) {
+				System.out.println("RELE");
+			}
+		});
+	}
+
+	public void restart() {
+		System.out.println("Restart called");
+		player = new Duke();
+		playing = true;
+		gameOver = null;
+		offset = 0;
+		build(5,39,30,1);
+		build(15,29,20,1);
+		build(0,20,10,1);
+		build(35,15,10,1);
+		build(15,25,10,1);
+		build(45,35,10,1);
+		build(20,46,40,1);
+		build(30,53,20,1);
+		blocks = new HashSet<Platform>(2400);
+		for(int i=0; i<platforms.length; i++) {
+			for(int j=0; j<platforms[0].length; j++) {
+				if (platforms[i][j]!=null) {
+					blocks.add(new Platform(i*10, j*10, 10, 10));
+				}
+			}
+		}
+	}	
 
 	public void reset() {
+		offset = 0;
 		player = new Duke();
 		build(5,39,30,1);
 		build(15,29,20,1);
@@ -84,7 +123,7 @@ public class LevelOne extends JPanel {
 		build(0,59,60,1); //base
 		for(int i=0; i<platforms.length; i++) {
 			for(int j=0; j<platforms[0].length; j++) {
-				if(platforms[i][j]!=null){
+				if (platforms[i][j]!=null){
 					blocks.add(new Platform(i*10, j*10, 10, 10));
 				}
 			}
@@ -98,38 +137,49 @@ public class LevelOne extends JPanel {
 		player.move();
 		player.grounded = false;
 		for (Platform p : blocks) {
-			if(player.intersects(p) && player.y <= p.y - p.height) {
+			if (player.intersects(p) && player.y <= p.y - p.height) {
 				player.yVel = 0;
 				player.y = p.y - player.height;
 				player.grounded = true;
 			}
 		}
-		if(!player.grounded) {
+		if (!player.grounded) {
 			player.yVel += gravity;
 		}
-		if(player.y <= 150) {
+		if (player.y <= 150) {
 			for (Platform p : blocks) {
 				p.y += (150 - player.y);
 			}
+			offset -= 150 - player.y;
 			player.y = 150;
 		}
-		if(player.y >= 350) {
+		if (player.y >= 350) {
 			for (Platform p : blocks) {
 				p.y -= (player.y - 350);
 			}
+			offset += (player.y - 350);
 			player.y = 350;
 		}
-
+		if (offset > 300) {
+			gameOver();
+		}
 		repaint();
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		draw(g);
-		player.draw(g);
-		for (Platform p : blocks) {
-			p.draw(g);
+		if (playing) {
+			super.paintComponent(g);
+			draw(g);
+			player.draw(g);
+			for (Platform p : blocks) {
+				p.draw(g);
+			}			
+		} else {
+			if (gameOver == null) {
+				gameOver = new Text("gameOver.png");
+			}
+			gameOver.draw(g);
 		}
 	}
 	@Override
