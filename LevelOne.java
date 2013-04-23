@@ -10,6 +10,7 @@ import java.util.HashSet;
 
 @SuppressWarnings("serial")
 public class LevelOne extends JPanel {
+	private Ocaml camel;
 	private Text gameOver;
 	private Duke player;
 	private JLabel status;
@@ -21,9 +22,10 @@ public class LevelOne extends JPanel {
 	private BufferedImage bg;
 	
 	private Boolean[][] platforms = new Boolean[61][61];
-	private HashSet<Shape> blocks = new HashSet<Shape>(2400); 
+	private HashSet<Platform> blocks = new HashSet<Platform>(2400); 
 
 	private Boolean[][] walls = new Boolean[61][61];
+	private HashSet<Wall> barriers = new HashSet<Wall>(2400);
 
 	private int gravity = 1;
 	private int offsetx = 0;
@@ -81,23 +83,29 @@ public class LevelOne extends JPanel {
 		this.status = status;
 	}
 
-	public void gameOver() {
+	public void fin() {
+		offsety = 0;
+		gravity = 0;
+		player.yVel = 0;
 		status.setText("Press any key to restart.");
 		playing = false;
+		System.out.println("Game");
 		addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {}
 			public void keyTyped(KeyEvent e) {}
 			public void keyReleased(KeyEvent e) {
 				removeKeyListener(this);
-				restart();
+				reset();
 			}
 		});
 	}
 
-	public void restart() {
-		System.out.println("Restart called");
+	public void reset() {
+		status.setText("Find the Objective Camel!");
+		gravity = 1;
 		player = new Duke();
+		camel = new Ocaml();
 		playing = true;
 		gameOver = null;
 		offsetx = 0;
@@ -110,8 +118,9 @@ public class LevelOne extends JPanel {
 		build(45,35,10,1);
 		build(20,46,40,1);
 		build(30,53,20,1);
-		wall(20,20,1,5);
+		wallOff(20,20,1,5);
 		blocks = new HashSet<Platform>(2400);
+		barriers = new HashSet<Wall>(2400);
 		for(int i=0; i<platforms.length; i++) {
 			for(int j=0; j<platforms[0].length; j++) {
 				if (platforms[i][j]!=null) {
@@ -122,53 +131,28 @@ public class LevelOne extends JPanel {
 		for(int i=0; i<walls.length; i++) {
 			for(int j=0; j<walls[0].length; j++) {
 				if (walls[i][j]!=null) {
-					blocks.add(new Platform(i*10, j*10, 10, 10));
+					barriers.add(new Wall(i*10, j*10, 10, 10));
 				}
 			}
 		}
 	}	
 
-	public void reset() {
-		offsetx = 0;
-		offsety = 0;
-		player = new Duke();
-		build(5,39,30,1);
-		build(5,33,1,6);
-		build(15,29,20,1);
-		build(0,20,10,1);
-		build(35,15,10,1);
-		build(15,25,10,1);
-		build(45,35,10,1);
-		build(20,46,40,1);
-		build(30,53,20,1);
-		build(0,59,60,1); //base
-		for(int i=0; i<platforms.length; i++) {
-			for(int j=0; j<platforms[0].length; j++) {
-				if (platforms[i][j]!=null){
-					blocks.add(new Platform(i*10, j*10, 10, 10));
-				}
-			}
-		}
-		playing = true;
-		status.setText("Find the Objective Camel!");
-		requestFocusInWindow();
-	}
-
 	void tick() {
 		player.move();
 		player.grounded = false;
-		for (Wall w : walls) {
-			if (player.intersects(p) && player.y <= p.y - p.height) {}
+		for (Wall w : barriers) {
+			if (player.touches(w)) {
+				if (player.x <= w.x) {
+					player.x = w.x - player.width;
+				} else {
+					player.x = w.x + w.width;
+				}
+			} 
 		}
 		for (Platform p : blocks) {
 			if (player.intersects(p) && player.y <= p.y - p.height + 6) {
 				if (player.y + player.height != p.y) {
 					player.xVel = 0;
-					// if (player.x <= p.x) {
-					// 	player.x = p.x - player.width;
-					// } else {
-					// 	player.x += p.width;
-					// }
 				}
 				player.yVel = 0;
 				player.y = p.y - player.height;
@@ -184,24 +168,32 @@ public class LevelOne extends JPanel {
 			for (Platform p : blocks) {
 				p.y += (150 - player.y);
 			}
+			for (Wall w : barriers) {
+				w.y += (150 - player.y);
+			}
 			offsety -= 150 - player.y;
 			player.y = 150;
 		}
-		if (player.y >= 350) {
+		if (player.y >= 300) {
 			for (Platform p : blocks) {
-				p.y -= (player.y - 350);
+				p.y -= (player.y - 300);
 			}
-			offsety += (player.y - 350);
-			player.y = 350;
+			for (Wall w : barriers) {
+				w.y -= (player.y - 300);
+			}
+			offsety += (player.y - 300);
+			player.y = 300;
 		}
 		if (offsety > 300) {
-			offsety = 0;
-			gameOver();
+			fin();
 		}
 
 		if (player.x >= 400) {
 			for (Platform p : blocks) {
 				p.x += (400 - player.x);
+			}
+			for (Wall w : barriers) {
+				w.x += (400 - player.x);
 			}
 			offsetx -= 150 - player.y;
 			player.x = 400;
@@ -209,6 +201,9 @@ public class LevelOne extends JPanel {
 		if (player.x <= 200) {
 			for (Platform p : blocks) {
 				p.x -= (player.x - 200);
+			}
+			for (Wall w : barriers) {
+				w.x -= (player.x - 200);
 			}
 			offsetx += (player.x - 200);
 			player.x = 200;
@@ -222,9 +217,13 @@ public class LevelOne extends JPanel {
 			super.paintComponent(g);
 			draw(g);
 			player.draw(g);
+			camel.draw(g);
 			for (Platform p : blocks) {
 				p.draw(g);
 			}			
+			for (Wall w : barriers) {
+				w.draw(g);
+			}	
 		} else {
 			if (gameOver == null) {
 				gameOver = new Text("gameOver.png");

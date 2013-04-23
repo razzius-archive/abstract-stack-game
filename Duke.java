@@ -16,7 +16,6 @@ public class Duke extends Sprite {
 	public String status = "idle";
 	public boolean grounded = false;
 	
-	public BufferedImage img;
 	private BufferedImage base;
 	private int frame = 0;
 

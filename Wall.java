@@ -13,7 +13,7 @@ public class Wall implements Shape {
 
 	public BufferedImage img;
 
-	public Platform(int x, int y, int w, int h) {
+	public Wall(int x, int y, int w, int h) {
 		this.x = x;
 		this.y = y;
 		this.width = w;
