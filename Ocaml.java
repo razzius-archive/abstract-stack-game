@@ -16,7 +16,7 @@ public class Ocaml extends Sprite {
 	private BufferedImage[] runFrames = new BufferedImage[3];
 
 	public Ocaml() {
-		super(1000, 460, WIDTH, HEIGHT, "");
+		super(3850, 490, WIDTH, HEIGHT, "");
 		try {
 			runFrames[0] = ImageIO.read(new File("ocaml0.png"));
 			runFrames[1] = ImageIO.read(new File("ocaml1.png"));

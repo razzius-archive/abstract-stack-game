@@ -23,6 +23,7 @@ public class Duke extends Sprite {
 
 	public Duke() {
 		super(250, 200, WIDTH, HEIGHT, "idle");
+		this.slideFactor = .9;
 		try {
 			base = ImageIO.read(new File("duke.png"));
 			runFrames[0] = ImageIO.read(new File("run00.png"));

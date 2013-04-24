@@ -10,6 +10,8 @@ public class Sprite extends Shape {
 	public int xVel;
 	public int yVel;
 
+	public double slideFactor;
+
 	public String status;
 
 	public Sprite(int x, int y, int w, int h, String status) {
@@ -27,7 +29,7 @@ public class Sprite extends Shape {
 	}
 
 	public void friction() {
-		this.xVel *=.9;
+		this.xVel *= slideFactor;
 		if (Math.abs(xVel) < 2) {
 			xVel = 0;
 		}
