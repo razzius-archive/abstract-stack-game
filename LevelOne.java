@@ -217,25 +217,24 @@ public class LevelOne extends JPanel {
 	}	
 
 	void tick() {
-		// status.setText(Integer.toString(camelOffset));
 		//makes sure the camel doesn't move too far
 		if (countdown == 0) {
 			rand = random.nextInt(3);
 			if (camelOffset > 1 || camelOffset < -1) {
 				if (camelOffset > 0) {
-					camel.xVel = -6;
+					camel.xVel = -3;
 					camelOffset = 0;
 				} else {
-					camel.xVel = 6;
+					camel.xVel = 3;
 					camelOffset = 0;
 				}
 			} else if (rand == 2) {
-				camel.xVel += 2;
-				countdown += 40;
+				camel.xVel += 3;
+				countdown += 60;
 				camelOffset += 1;
 			} else if (rand == 1) {
-				camel.xVel -= 2;
-				countdown += 40;
+				camel.xVel -= 3;
+				countdown += 60;
 				camelOffset -= 1;
 			}
 		} else {
@@ -385,9 +384,7 @@ public class LevelOne extends JPanel {
 				s.draw(g);
 			}			
 		} else {
-			if (gameOver == null) {
-				gameOver = new Text("gameOver.png");
-			}
+			gameOver = new Text("gameOver.png");
 			gameOver.draw(g);
 		}
 	}
