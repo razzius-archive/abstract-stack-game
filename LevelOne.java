@@ -79,6 +79,7 @@ public class LevelOne extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (!started) {
+					//first keypress starts the game
 					started = true;
 				}
 				if (e.getKeyCode()==65) {
