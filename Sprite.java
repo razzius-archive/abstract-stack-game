@@ -34,26 +34,10 @@ public class Sprite extends Shape {
 	}
 
 	public boolean intersects(Shape target) {
-		// System.out.println(target.height);
-		// System.out.println(x + width + " x " + target.x);
-		// System.out.println(y + height + " y " + target.y);
-		// System.out.println(x + " tx " + (target.x + target.width));
-		// System.out.println(y + " ty " + (target.y + target.height));
 		return (x+width >= target.x
 			&& y+height >= target.y
 			&& target.x + target.width >= x
 			&& target.y + target.height >= y);
 	}
-	// public boolean touches(Wall target) {
-	// 	// System.out.println(target.height);
-	// 	// System.out.println(x + width + " x " + target.x);
-	// 	// System.out.println(y + height + " y " + target.y);
-	// 	// System.out.println(x + " tx " + (target.x + target.width));
-	// 	// System.out.println(y + " ty " + (target.y + target.height));
-	// 	return (x+width >= target.x
-	// 		&& y+height >= target.y
-	// 		&& target.x + target.width >= x
-	// 		&& target.y + target.height >= y);
-	// }
 	public void draw(Graphics g) {}
 }

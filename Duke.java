@@ -12,10 +12,10 @@ public class Duke extends Sprite {
 	public static int YVEL = 0;
 
 
-	public int MAX_VEL = 10;
+	public int maxVel = 8;
 	public String status = "idle";
 	public boolean grounded = false;
-	
+	public int jump = -10;
 	private BufferedImage base;
 	private int frame = 0;
 
@@ -35,9 +35,9 @@ public class Duke extends Sprite {
 	@Override
 	public void draw(Graphics g) {
 		if (status.equals("runLeft")) {
-			this.xVel -= (this.xVel + MAX_VEL) * .6;
+			this.xVel -= (this.xVel + maxVel) * .6;
 		} else if (status.equals("runRight")) {
-			this.xVel += (-this.xVel + MAX_VEL) * .6;
+			this.xVel += (-this.xVel + maxVel) * .6;
 		}
 		if (status.equals("idle")) {
 			g.drawImage(base, x, y, width, height, null);

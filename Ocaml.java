@@ -10,15 +10,13 @@ public class Ocaml extends Sprite {
 	
 	public static int XVEL = 0;
 	public static int YVEL = 0;
-
-	public int MAX_VEL = 10;
 	
 	private int frame = 0;
 
 	private BufferedImage[] runFrames = new BufferedImage[3];
 
 	public Ocaml() {
-		super(600, 550, WIDTH, HEIGHT, "");
+		super(1000, 460, WIDTH, HEIGHT, "");
 		try {
 			runFrames[0] = ImageIO.read(new File("ocaml0.png"));
 			runFrames[1] = ImageIO.read(new File("ocaml1.png"));
