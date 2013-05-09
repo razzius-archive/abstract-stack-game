@@ -1,1 +1,3 @@
-Used RepeatingReleasedEventsFixer.java to deal with keystrokes being repeated
+This is a 2d platformer written in Java for [cis 120](http://www.seas.upenn.edu/~cis120/current/), built using Swing.
+
+Play as the java mascot, Duke, and find the Objective Camel at the end of the level!

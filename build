@@ -1,1 +1,3 @@
-cd ~/workspace/javaGame/bin; rm *.class; javac ../src/*.java -d . && java Game
+cd bin
+rm *.class
+javac ../src/*.java -d . && java Game
