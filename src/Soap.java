@@ -14,7 +14,7 @@ public class Soap extends Shape {
 		this.width = w;
 		this.height = h;
 		try {
-			img = ImageIO.read(new File("soap.png"));
+			img = ImageIO.read(new File("../img/soap.png"));
 		} catch (IOException e) {
 			System.out.println("png missing");
 		}

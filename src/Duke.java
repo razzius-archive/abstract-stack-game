@@ -25,10 +25,10 @@ public class Duke extends Sprite {
 		super(250, 200, WIDTH, HEIGHT, "idle");
 		this.slideFactor = .9;
 		try {
-			base = ImageIO.read(new File("duke.png"));
-			runFrames[0] = ImageIO.read(new File("run00.png"));
-			runFrames[1] = ImageIO.read(new File("run01.png"));
-			runFrames[2] = ImageIO.read(new File("run02.png"));
+			base = ImageIO.read(new File("../img/duke.png"));
+			runFrames[0] = ImageIO.read(new File("../img/run00.png"));
+			runFrames[1] = ImageIO.read(new File("../img/run01.png"));
+			runFrames[2] = ImageIO.read(new File("../img/run02.png"));
 		} catch (IOException e) {
 			System.out.println("png missing");
 		}

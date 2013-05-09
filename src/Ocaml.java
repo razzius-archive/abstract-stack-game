@@ -16,11 +16,11 @@ public class Ocaml extends Sprite {
 	private BufferedImage[] runFrames = new BufferedImage[3];
 
 	public Ocaml() {
-		super(3850, 540, WIDTH, HEIGHT, "");
+		super(3880, 540, WIDTH, HEIGHT, "");
 		try {
-			runFrames[0] = ImageIO.read(new File("ocaml0.png"));
-			runFrames[1] = ImageIO.read(new File("ocaml1.png"));
-			runFrames[2] = ImageIO.read(new File("ocaml2.png"));
+			runFrames[0] = ImageIO.read(new File("../img/ocaml0.png"));
+			runFrames[1] = ImageIO.read(new File("../img/ocaml1.png"));
+			runFrames[2] = ImageIO.read(new File("../img/ocaml2.png"));
 		} catch (IOException e) {
 			System.out.println("ocaml png missing");
 		}

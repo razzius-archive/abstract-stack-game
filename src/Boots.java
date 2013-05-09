@@ -14,7 +14,7 @@ public class Boots extends Shape {
 		this.width = w;
 		this.height = h;
 		try {
-			img = ImageIO.read(new File("boots.png"));
+			img = ImageIO.read(new File("../img/boots.png"));
 		} catch (IOException e) {
 			System.out.println("png missing");
 		}

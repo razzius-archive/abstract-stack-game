@@ -14,7 +14,7 @@ public class Wall extends Shape {
 		this.width = w;
 		this.height = h;
 		try {
-			img = ImageIO.read(new File("wall.png"));
+			img = ImageIO.read(new File("../img/wall.png"));
 		} catch (IOException e) {
 			System.out.println("png missing");
 		}

@@ -71,7 +71,7 @@ public class LevelOne extends JPanel {
 		setFocusable(true);
 
 		try {
-			bg = ImageIO.read(new File("bg.png"));
+			bg = ImageIO.read(new File("../img/bg.png"));
 		} catch (IOException e) {
 			System.out.println("png missing");
 		}
@@ -111,7 +111,7 @@ public class LevelOne extends JPanel {
 		playing = false;
 		// After losing, make any key start the game over
 		addKeyListener(new KeyListener() {
-			@Override
+			// @Override
 			public void keyPressed(KeyEvent e) {}
 			public void keyTyped(KeyEvent e) {}
 			public void keyReleased(KeyEvent e) {

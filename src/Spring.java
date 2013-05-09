@@ -14,7 +14,7 @@ public class Spring extends Shape {
 		this.width = w;
 		this.height = h;
 		try {
-			img = ImageIO.read(new File("spring.png"));
+			img = ImageIO.read(new File("../img/spring.png"));
 		} catch (IOException e) {
 			System.out.println("spring png missing");
 		}

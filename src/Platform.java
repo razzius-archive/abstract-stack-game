@@ -14,7 +14,7 @@ public class Platform extends Shape {
 		this.width = w;
 		this.height = h;
 		try {
-			img = ImageIO.read(new File("ground.png"));
+			img = ImageIO.read(new File("../img/ground.png"));
 		} catch (IOException e) {
 			System.out.println("png missing");
 		}
